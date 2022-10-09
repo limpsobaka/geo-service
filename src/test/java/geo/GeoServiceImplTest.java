@@ -1,6 +1,5 @@
 package geo;
 
-import entity.LocationToStringInterface;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -12,6 +11,7 @@ import ru.netology.entity.Location;
 import ru.netology.geo.GeoService;
 import ru.netology.geo.GeoServiceImpl;
 
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +28,7 @@ public class GeoServiceImplTest {
   @ParameterizedTest
   public void testByIp(String ip, Location expectedLocation) {
     //assert
-    LocationToStringInterface locationToString = (Location location) -> location.getCountry() + " - "
+    Function<Location, String> toString = (Location location) -> location.getCountry() + " - "
             + location.getCity() + " - "
             + location.getStreet() + " - "
             + location.getBuiling();
@@ -37,7 +37,7 @@ public class GeoServiceImplTest {
     Location result = geoService.byIp(ip);
 
     //assert
-    assertEquals(locationToString.toString(expectedLocation), locationToString.toString(result));
+    assertEquals(toString.apply(expectedLocation), toString.apply(result));
   }
 
   @Test
